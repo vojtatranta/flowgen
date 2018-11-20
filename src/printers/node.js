@@ -6,6 +6,15 @@ import _ from "lodash";
 
 import printers from "./index";
 
+
+export const sanitize = (typeString: string): string => {
+  if (typeString.search('-') > -1 && typeString.search("'") === -1) {
+    return "['" + typeString + "']"
+  }
+
+  return typeString
+}
+
 export const printType = (type: RawNode) => {
   // debuggerif()
   //TODO: #6 No match found in SyntaxKind enum
@@ -73,7 +82,6 @@ export const printType = (type: RawNode) => {
       );
 
     case SyntaxKind.StringLiteral:
-      debugger;
       return type.text;
 
     case SyntaxKind.TypeReference:
@@ -97,11 +105,12 @@ export const printType = (type: RawNode) => {
         );
       }
 
+      const sanitizedPropertyName = sanitize(keywordPrefix + type.name.text)
       if (type.type) {
-        return keywordPrefix + type.name.text + ": " + printType(type.type);
+        return sanitizedPropertyName + ": " + printType(type.type);
       }
 
-      return keywordPrefix + type.name.text + ": ";
+      return sanitizedPropertyName + ": ";
 
     case SyntaxKind.TupleType:
       return `[${type.elementTypes.map(printType).join(", ")}]`;
@@ -154,7 +163,7 @@ export const printType = (type: RawNode) => {
 
     case SyntaxKind.IntersectionType:
       return type.types.map(printType).join(" & ");
-      
+
     case SyntaxKind.LiteralType:
       return type.value;
 
