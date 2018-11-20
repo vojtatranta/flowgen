@@ -15,11 +15,15 @@ program
   )
   .option("--flow-typed-format", "format output for flow-typed")
   .option("--compile-tests", "compile any <filename>-tests.ts files found")
+  .option("--flow-pragma", "adds // @flow at the beginning of the file instead default meta text")
+  .option("--no-default-export-interface", "transforms 'export default interface' to 'export interface'")
   .arguments("[files...]")
   .action((files, options) => {
     runner({
       flowTypedFormat: options.flowTypedFormat,
       compileTests: options.compileTests,
+      flowPragma: options.flowPragma,
+      defaultExportInterface: options.defaultExportInterface,
       out: options.outputFile,
       version,
     }).compile(files);
