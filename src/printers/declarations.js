@@ -59,8 +59,8 @@ export const interfaceDeclaration = (nodeName: string, node: RawNode) => {
   }
 
   const type = node.heritageClauses ? "type" : "interface";
-
-  let str = `${printers.relationships.exporter(node) ||
+  const relationship = printers.relationships.exporter(node)
+  let str = `${(relationship === 'export default ' ? "export " : relationship) ||
     "declare "}${type} ${nodeName}${printers.common.generics(
     node.typeParameters,
   )} ${type === "type" ? "= " : ""}${interfaceType(node)} ${heritage}`;
