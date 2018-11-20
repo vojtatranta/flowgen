@@ -32,20 +32,30 @@ export const exporter = (node: RawNode): string => {
 
 export const imports = (node: ImportNode, moduleName: string): string => {
   let str = "import type ";
+  const importClause = node.importClause
 
-  if (node.default) {
-    str += node.default;
+  // if (node.default) {
+  //   str += node.default;
 
-    if (node.explicit.length) {
-      str += ", ";
-    }
+  //   if (node.explicit.length) {
+  //     str += ", ";
+  //   }
+  // }
+
+  let nameImports = []
+  if (importClause.namedBindings) {
+    nameImports = importClause.namedBindings.elements.map((element) => {
+      return `${element.name.text},`
+    })
+  } else {
+    str += `${importClause.name.text}`
   }
 
-  if (node.explicit.length) {
-    str += `{ ${node.explicit.join(", ")} }`;
+  if (nameImports.length) {
+    str += `{ ${nameImports.join(", ")} }`;
   }
 
-  str += ` from '${moduleName}'`;
+  str += ` from '${moduleName}'\n\n`;
 
   return str;
 };

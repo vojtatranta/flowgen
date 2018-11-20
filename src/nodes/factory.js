@@ -55,7 +55,7 @@ class Factory {
   }
 
   createNamespaceNode = (name: string) => new NamespaceNode(name);
-  createImportNode = (node: RawNode) => new ImportNode(node);
+  createImportNode = (node: RawNode, name: string) => new ImportNode(node, name);
   createExportNode = (node: RawNode) => new ExportNode(node);
   createVariableNode = (node: RawNode) => new VariableNode(node);
 }
