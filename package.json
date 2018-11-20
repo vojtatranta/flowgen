@@ -28,6 +28,7 @@
   "license": "ISC",
   "main": "lib/index.js",
   "scripts": {
+    "try": "node ./lib/cli/index.js",
     "prettier": "prettier  --write \"{src,types}/**/*.js\"",
     "compile": "babel --out-dir lib ./src",
     "compile:watch": "npm run compile -- -w",
