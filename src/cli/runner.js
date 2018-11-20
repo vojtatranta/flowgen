@@ -17,6 +17,7 @@ type RunnerOptions = {
   version: string,
   out: string,
   flowTypedFormat: boolean,
+  flowPragma: boolean,
   compileTests: boolean,
 };
 
@@ -40,7 +41,7 @@ export default (options: RunnerOptions) => {
         const outputFile = options.flowTypedFormat ? moduleName : options.out;
 
         // Get the intro text
-        const intro = meta(moduleName, options.version);
+        const intro = meta(moduleName, options.version, options);
 
         // Let the user know what's going on
         if (files.length > 3) {

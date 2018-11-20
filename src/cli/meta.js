@@ -1,6 +1,6 @@
 /* @flow */
 
-export default (moduleName: string, version: string, options: $Shape<{ flowPragma: boolean }>) => {
+export default (moduleName: string, version: string, options: { flowPragma: boolean }) => {
   if (options.flowPragma) {
     return "// @flow\n\n"
   }
