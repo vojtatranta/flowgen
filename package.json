@@ -1,7 +1,7 @@
 {
-  "name": "flowgen",
-  "description": "Generate flowtype definition files from TypeScript",
-  "version": "1.2.3",
+  "name": "@avocode/flowgen",
+  "description": "Avocode fork of Generate flowtype definition files from TypeScript",
+  "version": "0.0.1",
   "bin": {
     "flowgen": "./lib/cli/index.js"
   },
