@@ -45,7 +45,7 @@ export const imports = (node: ImportNode, moduleName: string): string => {
   let nameImports = []
   if (importClause.namedBindings) {
     nameImports = importClause.namedBindings.elements.map((element) => {
-      return `${element.name.text},`
+      return `${element.name.text}`
     })
   } else {
     str += `${importClause.name.text}`
