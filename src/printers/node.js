@@ -5,15 +5,7 @@ import { SyntaxKind } from "typescript";
 import _ from "lodash";
 
 import printers from "./index";
-
-
-export const sanitize = (typeString: string): string => {
-  if (typeString.search('-') > -1 && typeString.search("'") === -1) {
-    return "['" + typeString + "']"
-  }
-
-  return typeString
-}
+import sanitize from './sanitize'
 
 export const printType = (type: RawNode) => {
   // debuggerif()
@@ -88,7 +80,8 @@ export const printType = (type: RawNode) => {
       return printers.declarations.typeReference(type);
 
     case SyntaxKind.VariableDeclaration:
-    case SyntaxKind.PropertyDeclaration:
+    case SyntaxKind.ExpressionStatement:
+    case SyntaxKind.PropertyDeclaration: {
       if (
         type.modifiers &&
         type.modifiers.some(modifier => modifier.kind === "PrivateKeyword")
@@ -105,15 +98,21 @@ export const printType = (type: RawNode) => {
         );
       }
 
-      const sanitizedPropertyName = sanitize(keywordPrefix + type.name.text)
-      if (type.type) {
-        return sanitizedPropertyName + ": " + printType(type.type);
+      const questionToken = type.questionToken ? '?' : ''
+      const printedType = type.type ? printType(type.type) : ''
+
+      if (type.name.expression) {
+        const sanitizedPropertyName = sanitize(keywordPrefix + type.name.expression.text)
+        const b = type.name.expression.text
+        return sanitizedPropertyName + `${questionToken}: ${printedType}`;
       }
 
-      return sanitizedPropertyName + ": ";
-
+      const sanitizedPropertyName = sanitize(keywordPrefix + type.name.text)
+      return sanitizedPropertyName + `${questionToken}: ${printedType}`;
+    }
     case SyntaxKind.TupleType:
       return `[${type.elementTypes.map(printType).join(", ")}]`;
+
 
     case SyntaxKind.MethodSignature:
       return `${type.name.text}${printers.functions.functionType(type, true)}`;
