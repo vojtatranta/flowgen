@@ -11,4 +11,4 @@ runner({
   defaultExportInterface: false,
   out: './flow/test.js',
   version,
-}).compile([ './src/cli/__tests__/fixtures/import.d.ts' ])
+}).compile([ './src/cli/__tests__/fixtures/octopus.d.ts' ])

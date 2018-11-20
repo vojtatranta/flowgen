@@ -3,13 +3,15 @@ import type { RawNode } from "../nodes/node";
 import type { JSDocTypeExpression } from "typescript";
 
 import printers from "./index";
+import sanitize from './sanitize'
+
 
 export const parameter = (param: RawNode): string => {
-  let left = param.name.text;
+  let left = sanitize(param.name.text);
   let right;
 
   if (param.name.kind === "ObjectBindingPattern") {
-    left = `{${param.name.elements.map(printers.node.printType).join(", ")}}`;
+    left = sanitize(`{${param.name.elements.map(printers.node.printType).join(", ")}}`);
   }
 
   if (!param.type) {
